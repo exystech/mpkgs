@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MouseX Desktop</title>
+  <style>
+    body {
+      background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      overflow: hidden;
+    }
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background-color: #0078d7;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
+    }
+    .start-menu {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      width: 200px;
+      position: absolute;
+      bottom: 40px;
+      left: 10px;
+      display: none;
+    }
+    .start-menu.active {
+      display: block;
+    }
+    .start-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .start-menu li {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .start-menu li:hover {
+      background-color: #0078d7;
+      color: #fff;
+    }
+    .window {
+      position: absolute;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      width: 300px;
+      height: 200px;
+      top: 100px;
+      left: 100px;
+      resize: both;
+      overflow: auto;
+    }
+    .window .titlebar {
+      background: #0078d7;
+      color: #fff;
+      padding: 5px;
+      cursor: move;
+    }
+  </style>
+</head>
+<body>
+  <div class="taskbar">
+    <button id="start-button">Start</button>
+  </div>
+  <div class="start-menu" id="start-menu">
+    <ul>
+      <li onclick="openApp('Notepad')">Notepad</li>
+      <li onclick="openApp('Calculator')">Calculator</li>
+      <!-- Altre applicazioni possono essere aggiunte qui -->
+    </ul>
+  </div>
+  <script>
+    const startButton = document.getElementById('start-button');
+    const startMenu = document.getElementById('start-menu');
+    startButton.addEventListener('click', () => {
+      startMenu.classList.toggle('active');
+    });
+    function openApp(appName) {
+      const win = document.createElement('div');
+      win.className = 'window';
+      win.innerHTML = `<div class="titlebar">${appName} <button onclick="this.parentElement.parentElement.remove()">X</button></div>
+                       <div class="content">${appName} content...</div>`;
+      document.body.appendChild(win);
+      // Funzionalità base per il trascinamento
+      const titlebar = win.querySelector('.titlebar');
+      titlebar.onmousedown = function(e) {
+        let offsetX = e.clientX - win.offsetLeft;
+        let offsetY = e.clientY - win.offsetTop;
+        document.onmousemove = function(e) {
+          win.style.left = (e.clientX - offsetX) + 'px';
+          win.style.top = (e.clientY - offsetY) + 'px';
+        };
+        document.onmouseup = function() {
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
+      };
+      startMenu.classList.remove('active');
+    }
+  </script>
+</body>
+</html>
