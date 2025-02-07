@@ -1,0 +1,4 @@
+{
+  "name": "wantssh",
+  "description": "Installs and starts the SSH server for Merlin Kernel OS."
+}
