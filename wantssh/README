@@ -1,0 +1,5 @@
+# WantSSH
+
+This package installs the SSH server for Merlin Kernel OS. When installed, Merlin will automatically start an SSH server on port 2222 using a freshly generated host key.
+
+No further configuration is needed.
