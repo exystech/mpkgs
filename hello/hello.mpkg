@@ -1,0 +1,4 @@
+{
+  "name": "hello",
+  "description": "Adds a 'hello' command that prints 'hello world' and then awaits a response."
+}
